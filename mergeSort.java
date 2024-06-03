@@ -1,10 +1,56 @@
-public class mergeSort {
-    public static void main(String[] args) throws Exception {
-        int[] a = new int[]{1,3,2,8,9};
-        int n;
-        n = 5;
-        quickSort(a ,0,n-1);
-        printArray(a,n);
+public class mergeSort
+{
+    public static void merge(int a[],int mid ,int low ,int high)
+    {
+        int i,j,k;
+        i = low;
+        k = low;
+        j = mid+1;
+        int b[] = new int[100];
+
+        while(i <= mid && j<= high)
+        {
+            if(a[i] < a[j])
+            {
+                b[k] = a[i];
+                i++;
+                k++;
+            }
+            else{
+                b[k] = a[j];
+                j++;
+                k++;
+            }
+        }
+        while(i <= mid)
+        {
+            b[k] = a[i];
+            i++;
+            k++;
+        }
+        while(j <= high)
+        {
+            b[k] = a[j];
+            j++;
+            k++;
+        }
+        for(int m = low; m <= high; m++)
+        {
+            a[m] = b[m];
+        }
+
+    }
+    public static void mergesort(int a[] ,int low,int high)
+    {
+        if(low < high)
+        {
+            int mid;
+            mid = (low+high)/2;
+            
+            mergesort(a, low, mid);
+            mergesort(a,mid+1,high);
+            merge(a, mid, low, high);
+        }
     }
     public static void printArray(int []a ,int n)
     {
@@ -12,45 +58,13 @@ public class mergeSort {
         {
             System.err.print(a[i]);
         } 
-        System.out.println("");
-    }
-    public static int partiton(int []a, int low, int high)
-    {
-        int pivot = a[low];
-        int temp;
-        int i = low + 1;
-        int j = high;
-        do
-        {
-            while (a[i] <= pivot)
-            {
-                i++;
-            }
-            while (a[j] > pivot)
-            {
-                j--;
-            }
-            if (i<j)
-            {
-                temp = a[i];
-                a[i] = a[j];
-                a[j] = temp;
-            }
-        }while (i<j);
-        temp = a[low];
-        a[low] = a[j];
-        a[j] = temp;
-        return j;
-    }
-    public static void quickSort(int a[] , int low, int high)
-    {
-        int partition_index;
-        if (low < high)
-        {
-            partition_index = partiton(a ,low, high);
-            quickSort(a, low, partition_index-1);
-            quickSort(a,partition_index+1,high);
-        }
-
+        System.err.println("");
+    } 
+    public static void main(String[] args) throws Exception {
+        int[] a = new int[]{1,3,2,8,9};
+        int n;
+        n = 5;
+        mergesort(a ,0,n-1);
+        printArray(a,n);
     }
 }
